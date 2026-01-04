@@ -15,14 +15,22 @@ poetry install
 ### Generate a new module
 
 ```bash
-poetry run velo <module-name>
+velo generate <module-name>
 ```
 
 Example:
 
 ```bash
-poetry run velo product
+velo generate product
 ```
+
+### Start development server
+
+```bash
+velo dev
+```
+
+This runs the FastAPI development server with hot reload.
 
 This will create a new module called `product` with the following structure:
 
@@ -78,7 +86,13 @@ The generated files are templates that you can customize according to your needs
 Generate multiple modules:
 
 ```bash
-poetry run velo category
-poetry run velo order
-poetry run velo inventory
+velo generate category
+velo generate order
+velo generate inventory
+```
+
+Start development:
+
+```bash
+velo dev
 ```

@@ -12,7 +12,7 @@ from .schemas import Create{{ pascal_case }}, Update{{ pascal_case }}, {{ pascal
 router = APIRouter(prefix="/v1/{{ feature_name }}s", tags=["{{ pascal_case }}"])
 
 
-@router.get("/", dependencies=[Depends(Params)], response_model=Page[{{ pascal_case }}Response])
+@router.get("", dependencies=[Depends(Params)], response_model=Page[{{ pascal_case }}Response])
 async def get_{{ feature_name }}_list(
     use_case: {{ pascal_case }}UseCase = Depends(get_{{ feature_name }}_use_case),
 ):
@@ -20,7 +20,7 @@ async def get_{{ feature_name }}_list(
     return await use_case.get_list()
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model={{ pascal_case }}Response)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model={{ pascal_case }}Response)
 async def create_{{ feature_name }}(
     data: Create{{ pascal_case }},
     use_case: {{ pascal_case }}UseCase = Depends(get_{{ feature_name }}_use_case),

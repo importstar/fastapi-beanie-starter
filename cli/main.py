@@ -1,17 +1,45 @@
 """
-Velo CLI - FastAPI Module Generator
+Velo CLI - FastAPI Module Generator and Development Tools
 """
 
 import typer
+import subprocess
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
-from typing import Optional
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 
 app = typer.Typer()
 console = Console()
+
+
+@app.command()
+def dev():
+    """
+    Start the FastAPI development server.
+
+    Runs the application in development mode with hot reload.
+    """
+    script_path = Path.cwd() / "scripts" / "run-dev"
+
+    if not script_path.exists():
+        console.print("[red]❌ Error: scripts/run-dev not found![/red]")
+        console.print(f"[dim]Looking for: {script_path}[/dim]")
+        raise typer.Exit(1)
+
+    console.print("[blue]🚀 Starting FastAPI development server...[/blue]")
+
+    try:
+        # Make script executable if not already
+        script_path.chmod(0o755)
+        # Run the script
+        subprocess.run([str(script_path)], check=True)
+    except subprocess.CalledProcessError as e:
+        console.print(f"[red]❌ Failed to start dev server: {e}[/red]")
+        raise typer.Exit(1)
+    except KeyboardInterrupt:
+        console.print("[yellow]🛑 Development server stopped[/yellow]")
 
 
 def get_template_env() -> Environment:
@@ -81,6 +109,11 @@ def generate(
     init_file = module_dir / "__init__.py"
     init_file.write_text("")
     console.print(f"[green]✓[/green] Created {init_file}")
+
+    # Create __init__.py
+    create_file_from_template(
+        "__init__.py.j2", module_dir / "__init__.py", context, overwrite
+    )
 
     # Create model.py
     create_file_from_template(
