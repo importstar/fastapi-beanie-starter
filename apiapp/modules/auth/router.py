@@ -4,7 +4,7 @@ Auth API router - authentication endpoints
 
 import typing
 
-from fastapi import APIRouter, Depends, HTTPException, Security, status
+from fastapi import APIRouter, Depends, Security
 from fastapi.security import (
     HTTPAuthorizationCredentials,
     HTTPBearer,
@@ -13,7 +13,6 @@ from fastapi.security import (
 
 from .use_case import AuthUseCase, get_auth_use_case
 from . import schemas
-from ...core import exceptions
 
 
 router = APIRouter(prefix="/v1/auth", tags=["Authentication"])
