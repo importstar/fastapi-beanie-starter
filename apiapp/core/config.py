@@ -66,9 +66,9 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         case_sensitive=True,
         env_file=(
-            PROJECT_ROOT / ".env.dev"
+            PROJECT_ROOT / ".env"
             if "dev" == ENV
-            else PROJECT_ROOT / ".env"
+            else PROJECT_ROOT / ".env.prod"
             if "prod" == ENV
             else PROJECT_ROOT / ".env.test"
         ),

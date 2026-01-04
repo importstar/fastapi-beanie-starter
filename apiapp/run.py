@@ -18,7 +18,13 @@ def create_app() -> FastAPI:
     # Get project root directory (go up 2 levels from run.py)
     project_root = Path(__file__).resolve().parent.parent
 
-    env_file = ".env.dev" if os.getenv("APP_ENV") == "dev" else ".env"
+    env_file = (
+        ".env"
+        if os.getenv("APP_ENV") == "dev"
+        else ".env.prod"
+        if os.getenv("APP_ENV") == "prod"
+        else ".env.test"
+    )
     env_path = project_root / env_file
     if not env_path.exists():
         env_path = project_root / ".env"
@@ -30,6 +36,11 @@ def create_app() -> FastAPI:
 
     settings = get_settings()
     settings.configure_logging()
+
+    # Debug: print settings
+    logger.debug(
+        f"Settings loaded: APP_ENV={settings.APP_ENV}, DEBUG={settings.DEBUG}, DATABASE_URI={settings.DATABASE_URI[:30]}..."
+    )
 
     app = FastAPI(lifespan=lifespan, **settings.fastapi_kwargs)
     app.add_exception_handler(HTTPException, http_error.http_error_handler)
