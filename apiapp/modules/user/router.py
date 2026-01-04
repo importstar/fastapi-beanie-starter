@@ -14,7 +14,7 @@ from ...core.exceptions import DuplicatedError, ValidationError
 router = APIRouter(prefix="/v1/users", tags=["User"])
 
 
-@router.get("/", dependencies=[Depends(Params)], response_model=Page[UserResponse])
+@router.get("", dependencies=[Depends(Params)], response_model=Page[UserResponse])
 async def get_users(
     params: GetUser = Depends(),
     use_case: UserUseCase = Depends(get_user_use_case),
