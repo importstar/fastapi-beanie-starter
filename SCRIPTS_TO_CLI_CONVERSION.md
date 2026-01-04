@@ -7,26 +7,28 @@ The FastAPI Beanie Starter project has been successfully converted from individu
 ## 📋 What Was Converted
 
 ### Before (Scripts)
+
 ```bash
 # Individual shell scripts in scripts/ directory
 ./scripts/run-dev           # Development server
-./scripts/run-prod          # Production server  
+./scripts/run-prod          # Production server
 ./scripts/init-admin        # Initialize admin user
 ```
 
 ### After (Unified CLI)
+
 ```bash
 # Single CLI tool with subcommands
-poetry run forge app run dev     # Development server
-poetry run forge app run prod    # Production server
-poetry run forge admin create    # Initialize admin user
-poetry run forge module create   # Create new module
-poetry run forge module list     # List existing modules
+poetry run velo app run dev     # Development server
+poetry run velo app run prod    # Production server
+poetry run velo admin create    # Initialize admin user
+poetry run velo module create   # Create new module
+poetry run velo module list     # List existing modules
 ```
 
 ## 🎯 Key Improvements
 
-1. **Unified Interface**: All tools accessible through one command (`forge`)
+1. **Unified Interface**: All tools accessible through one command (`velo`)
 2. **Rich Help System**: Built-in help for all commands and options
 3. **Type Safety**: Better error handling and validation
 4. **Consistent UX**: Standardized output formatting and colors
@@ -36,12 +38,14 @@ poetry run forge module list     # List existing modules
 ## 🛠️ Technical Details
 
 ### CLI Structure
+
 - **Main CLI**: `cli/main.py` - Entry point and server commands
 - **Module Generator**: `cli/create_module.py` - Module creation functionality
 - **Admin Tools**: `cli/init_admin.py` - Admin user management
 - **Templates**: `cli/templates/` - Jinja2 templates for code generation
 
 ### Key Features Added
+
 - **Development Server**: Enhanced with configurable host, port, and log levels
 - **Production Server**: Improved with better error handling
 - **Admin Creation**: Interactive password prompts and Docker support
@@ -56,33 +60,36 @@ poetry run forge module list     # List existing modules
 ## 🚀 Usage Examples
 
 ### Development Workflow
+
 ```bash
 # Start development server
-poetry run forge app run dev --host 0.0.0.0 --port 8000 --log-level DEBUG
+poetry run velo app run dev --host 0.0.0.0 --port 8000 --log-level DEBUG
 
 # Create a new module
-poetry run forge module create products --dry-run
-poetry run forge module create products
+poetry run velo module create products --dry-run
+poetry run velo module create products
 
 # List existing modules
-poetry run forge module list
+poetry run velo module list
 
 # Setup admin user
-poetry run forge admin create --email admin@company.com --username admin
+poetry run velo admin create --email admin@company.com --username admin
 ```
 
 ### Production Deployment
+
 ```bash
 # Start production server
-poetry run forge app run prod --port 8000 --log-level INFO
+poetry run velo app run prod --port 8000 --log-level INFO
 
 # Initialize admin user in Docker environment
-poetry run forge admin create --docker --email admin@production.com
+poetry run velo admin create --docker --email admin@production.com
 ```
 
 ## 🔄 Backward Compatibility
 
 The original scripts are still functional but **deprecated**. Users can:
+
 1. Continue using existing scripts during transition
 2. Gradually migrate to CLI commands
 3. Eventually remove the scripts directory

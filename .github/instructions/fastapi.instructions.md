@@ -587,19 +587,19 @@ The project includes a powerful CLI module generator:
 
 ```bash
 # Interactive mode - will prompt for module name and features
-poetry run forge module
+poetry run velo module
 
 # Direct creation with module name
-poetry run forge module create {feature_name}
+poetry run velo module create {feature_name}
 
 # Force overwrite existing files
-poetry run forge module create {feature_name} --force
+poetry run velo module create {feature_name} --force
 
 # Dry run to see what files will be created
-poetry run forge module create {feature_name} --dry-run
+poetry run velo module create {feature_name} --dry-run
 
 # List existing modules
-poetry run forge module list
+poetry run velo module list
 ```
 
 The CLI will automatically generate:

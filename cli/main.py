@@ -9,7 +9,7 @@ from .create_module import app as create_module_app
 from .init_admin import app as init_admin_app
 
 app = typer.Typer(
-    name="forge", help="FastAPI Beanie Starter CLI Tools", add_completion=False
+    name="velo", help="FastAPI Beanie Starter CLI Tools", add_completion=False
 )
 
 # Create app subcommand group

@@ -10,7 +10,7 @@ python = ">=3.12,<4.0"
 fastapi = ">=0.115.8,<0.116.0"
 pydantic-settings = "^2.7.1"
 loguru = "^0.7.3"
-pydantic = {extras = ["email"], version = "^2.11.9"}
+pydantic = { extras = ["email"], version = "^2.11.9" }
 pymongo = "^4.15.1"
 jwcrypto = "^1.5.6"
 python-multipart = "^0.0.20"
@@ -25,7 +25,7 @@ openapi-python-client = "^0.23.1"
 ruff = "^0.9.5"
 
 [tool.poetry.scripts]
-forge = "cli.main:main"
+velo = "cli.main:main"
 controller = "apiapp.cmd.controller:main"
 
 [build-system]

@@ -1,4 +1,4 @@
-# Forge CLI - FastAPI Beanie Starter CLI Tools
+# Velo CLI - FastAPI Beanie Starter CLI Tools
 
 เครื่องมือ Command Line Interface สำหรับจัดการโปรเจกต์ FastAPI Beanie Starter
 
@@ -8,10 +8,10 @@ CLI นี้ติดตั้งมาพร้อมกับโปรเจ�
 
 ```bash
 # ใช้งาน CLI ผ่าน poetry script
-poetry run forge
+poetry run velo
 
 # หรือหลังจาก activate virtual environment
-forge
+velo
 ```
 
 ## 📋 คำสั่งที่มีให้ใช้
@@ -22,43 +22,43 @@ forge
 
 ```bash
 # สร้าง module ใหม่แบบ interactive
-poetry run forge module
+poetry run velo module
 
 # สร้าง module โดยระบุชื่อ
-poetry run forge module create products
+poetry run velo module create products
 
 # สร้างแบบ force overwrite (เขียนทับไฟล์เดิม)
-poetry run forge module create products --force
+poetry run velo module create products --force
 
 # ดูว่าจะสร้างไฟล์อะไรบ้าง (Dry run - ไม่สร้างไฟล์จริง)
-poetry run forge module create products --dry-run
+poetry run velo module create products --dry-run
 
 # ดู modules ที่มีอยู่
-poetry run forge module list
+poetry run velo module list
 
 # ดู help สำหรับ module commands
-poetry run forge module --help
+poetry run velo module --help
 ```
 
 ### ตัวอย่างการใช้งาน
 
 ```bash
 # 1. สร้าง products module
-poetry run forge module create products
+poetry run velo module create products
 
 # 2. สร้าง orders module แบบ force
-poetry run forge module create orders --force
+poetry run velo module create orders --force
 
 # 3. ดู modules ทั้งหมด
-poetry run forge module list
+poetry run velo module list
 
 # 4. ดูว่า posts module จะสร้างไฟล์อะไรบ้าง (ไม่สร้างจริง)
-poetry run forge module create posts --dry-run
+poetry run velo module create posts --dry-run
 ```
 
 ## 📁 ไฟล์ที่ CLI จะสร้างให้
 
-เมื่อสร้าง module ใหม่ด้วยคำสั่ง `forge module create <module_name>` ระบบจะสร้างไฟล์เหล่านี้:
+เมื่อสร้าง module ใหม่ด้วยคำสั่ง `velo module create <module_name>` ระบบจะสร้างไฟล์เหล่านี้:
 
 ### Module Structure
 
@@ -98,13 +98,13 @@ Router ที่สร้างขึ้นจะถูกค้นหาแล�
 
 ```bash
 # ดู help หลัก
-poetry run forge --help
+poetry run velo --help
 
 # ดู help สำหรับ module commands
-poetry run forge module --help
+poetry run velo module --help
 
 # ดู version
-poetry run forge --version
+poetry run velo --version
 ```
 
 ## 💡 Tips และ Best Practices
@@ -118,18 +118,18 @@ poetry run forge --version
 
 ### ปัญหาที่พบบ่อย
 
-1. **Command not found: forge**
+1. **Command not found: velo**
 
    ```bash
    # แก้ไข: ใช้ poetry run
-   poetry run forge
+   poetry run velo
    ```
 
 2. **Module already exists**
 
    ```bash
    # แก้ไข: ใช้ --force flag
-   poetry run forge module create products --force
+   poetry run velo module create products --force
    ```
 
 3. **Permission denied**

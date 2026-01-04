@@ -195,10 +195,10 @@ modules/{feature}/
 
    ```bash
    # โหมด Development (ใหม่ - ใช้ CLI)
-   poetry run forge app run dev
+   poetry run velo app run dev
    
    # โหมด Production (ใหม่ - ใช้ CLI)
-   poetry run forge app run prod
+   poetry run velo app run prod
    
    # หรือใช้วิธีเดิม
    poetry run python apiapp/run.py
@@ -214,10 +214,10 @@ modules/{feature}/
 
    ```bash
    # สร้าง products module แบบ interactive
-   poetry run forge module create
+   poetry run velo module create
 
    # หรือสร้างโดยระบุชื่อ
-   poetry run forge module create products
+   poetry run velo module create products
    ```
 
 2. **ไฟล์ที่สร้างขึ้นอัตโนมัติ:**
@@ -281,23 +281,23 @@ GET /v1/health
 
 ```bash
 # สร้าง module ใหม่ (Interactive mode)
-poetry run forge module create
+poetry run velo module create
 
 # สร้าง module โดยระบุชื่อ
-poetry run forge module create products
+poetry run velo module create products
 
 # สร้างแบบ force overwrite
-poetry run forge module create products --force
+poetry run velo module create products --force
 
 # ดูว่าจะสร้างไฟล์อะไรบ้าง (Dry run)
-poetry run forge module create products --dry-run
+poetry run velo module create products --dry-run
 
 # ดู modules ที่มีอยู่
-poetry run forge module list
+poetry run velo module list
 
 # ดู help
-poetry run forge --help
-poetry run forge module --help
+poetry run velo --help
+poetry run velo module --help
 ```
 
 **คุณสมบัติของ CLI:**
@@ -315,22 +315,22 @@ poetry run forge module --help
 
 ```bash
 # รันในโหมด Development (auto-reload)
-poetry run forge app run dev
+poetry run velo app run dev
 
 # รันในโหมด Production  
-poetry run forge app run prod
+poetry run velo app run prod
 
 # สร้าง Admin User แรก
-poetry run forge admin create
+poetry run velo admin create
 
 # สร้าง Module ใหม่
-poetry run forge module create products
+poetry run velo module create products
 
 # ดู Modules ที่มีอยู่
-poetry run forge module list
+poetry run velo module list
 
 # ดู Help
-poetry run forge --help
+poetry run velo --help
 ```
 
 ### 🔧 Development Scripts (วิธีเดิม - ยังใช้ได้)
@@ -346,7 +346,7 @@ poetry run forge --help
 ./scripts/init-admin
 ```
 
-> 💡 **แนะนำ**: ใช้ CLI commands (`poetry run forge`) แทน scripts เพื่อประสบการณ์ที่ดีกว่าและมี features เพิ่มเติม
+> 💡 **แนะนำ**: ใช้ CLI commands (`poetry run velo`) แทน scripts เพื่อประสบการณ์ที่ดีกว่าและมี features เพิ่มเติม
 
 ## 📚 คู่มือการพัฒนา
 
