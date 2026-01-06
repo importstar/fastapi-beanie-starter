@@ -22,7 +22,7 @@ class TokenData(BaseModel):
     user_id: str | None = None
 
 
-class SignIn(BaseSchema):
+class SignIn(BaseModel):
     username: str
     password: str
 

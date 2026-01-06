@@ -3,6 +3,7 @@ Auth API router - authentication endpoints
 """
 
 import typing
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, Security
 from fastapi.security import (
@@ -29,7 +30,7 @@ async def login_for_access_token(
 
 @router.post("/login")
 async def login(
-    form_data: typing.Annotated[OAuth2PasswordRequestForm, Depends()],
+    form_data: schemas.SignIn,
     use_case: AuthUseCase = Depends(get_auth_use_case),
 ) -> schemas.Token:
     """Login and get access + refresh tokens."""
@@ -38,7 +39,7 @@ async def login(
 
 @router.get("/refresh_token")
 async def refresh_token(
-    credentials: typing.Annotated[HTTPAuthorizationCredentials, Security(HTTPBearer())],
+    credentials: Annotated[HTTPAuthorizationCredentials, Security(HTTPBearer())],
     use_case: AuthUseCase = Depends(get_auth_use_case),
 ) -> schemas.GetAccessTokenResponse:
     """Refresh access token using refresh token."""

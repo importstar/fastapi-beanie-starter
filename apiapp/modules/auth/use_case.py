@@ -42,7 +42,7 @@ class AuthUseCase:
 
     async def authenticate(
         self,
-        form_data: OAuth2PasswordRequestForm,
+        form_data: schemas.SignIn,
     ) -> schemas.Token:
         """Full authentication with access + refresh tokens"""
         user = await User.find_one({"username": form_data.username, "is_active": True})
