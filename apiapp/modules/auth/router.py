@@ -5,7 +5,7 @@ Auth API router - authentication endpoints
 import typing
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Security
+from fastapi import APIRouter, Depends, Response, Security
 from fastapi.security import (
     HTTPAuthorizationCredentials,
     HTTPBearer,
@@ -14,6 +14,7 @@ from fastapi.security import (
 
 from .use_case import AuthUseCase, get_auth_use_case
 from . import schemas
+from .schemas import Platform
 
 
 router = APIRouter(prefix="/v1/auth", tags=["Authentication"])
@@ -28,13 +29,26 @@ async def login_for_access_token(
     return await use_case.login_for_access_token(form_data)
 
 
-@router.post("/login")
+@router.post("/login", response_model=schemas.Token)
 async def login(
+    response: Response,
     form_data: schemas.SignIn,
     use_case: AuthUseCase = Depends(get_auth_use_case),
 ) -> schemas.Token:
     """Login and get access + refresh tokens."""
-    return await use_case.authenticate(form_data)
+    token = await use_case.authenticate(form_data)
+    if form_data.platform == Platform.WEB:
+        response.set_cookie(
+            key="refresh_token",
+            value=token.refresh_token,
+            httponly=True,
+            samesite="strict",
+            secure=True,  # Recommended for production
+        )
+        # Hide refresh token from the response body
+        token.refresh_token = None
+
+    return token
 
 
 @router.get("/refresh_token")

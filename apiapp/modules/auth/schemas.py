@@ -1,16 +1,20 @@
 import datetime
-
 import typing as t
+from enum import Enum
 
 from pydantic import BaseModel, Field
 
 from ...core.base_schemas import BaseSchema
 
 
+class Platform(str, Enum):
+    WEB = "web"
+    MOBILE = "mobile"
+
 
 class Token(BaseModel):
     access_token: str
-    refresh_token: str
+    refresh_token: t.Optional[str] = None
     token_type: str
     expires_in: int
     expires_at: datetime.datetime
@@ -25,6 +29,7 @@ class TokenData(BaseModel):
 class SignIn(BaseModel):
     username: str
     password: str
+    platform: Platform = Platform.MOBILE
 
 
 class Payload(BaseSchema):
