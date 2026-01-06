@@ -145,10 +145,7 @@ def generate(
 
     console.print("\n[bold cyan]Next steps:[/bold cyan]")
     console.print(
-        f"1. Add the router to your main app: [code]from apiapp.modules.{snake_case}.router import router[/code]"
-    )
-    console.print(
-        "2. Include it in your FastAPI app: [code]app.include_router(router)[/code]"
+        f"1. Implement business logic in the generated routes in [code]apiapp/modules/{snake_case}/router.py[/code]"
     )
 
 
