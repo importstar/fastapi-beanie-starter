@@ -108,6 +108,11 @@ class AuthUseCase:
             )
 
 
+    async def logout(self) -> None:
+        """Logout user (this project use JWT that is stateless, revoking token will be done by delete from client)"""
+        pass
+
+
 def get_auth_use_case() -> AuthUseCase:
     """Get AuthUseCase instance"""
     return AuthUseCase()

@@ -51,6 +51,22 @@ async def login(
     return token
 
 
+@router.post("/logout", response_model=schemas.Message)
+async def logout(
+    response: Response,
+    use_case: AuthUseCase = Depends(get_auth_use_case),
+) -> schemas.Message:
+    """Logout and clear refresh token cookie."""
+    await use_case.logout()
+    response.delete_cookie(
+        key="refresh_token",
+        httponly=True,
+        samesite="strict",
+        secure=True,  # Recommended for production
+    )
+    return schemas.Message(detail="Successfully logged out")
+
+
 @router.get("/refresh_token")
 async def refresh_token(
     credentials: Annotated[HTTPAuthorizationCredentials, Security(HTTPBearer())],
