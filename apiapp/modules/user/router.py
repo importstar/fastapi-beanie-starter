@@ -7,6 +7,7 @@ from fastapi_pagination import Page, Params
 
 from .use_case import UserUseCase, get_user_use_case
 from .schemas import CreateUser, GetUser, UpdateUser, UserResponse
+from . import model
 from ...core.security import get_current_user
 from ...core.exceptions import DuplicatedError, ValidationError
 
@@ -40,6 +41,14 @@ async def register_user(
         return await use_case.create(data)
     except (DuplicatedError, ValidationError) as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+@router.get("/me", response_model=UserResponse)
+async def get_current_user_profile(
+    current_user: model.User = Depends(get_current_user),
+):
+    """Get current authenticated user's profile."""
+    return UserResponse.model_validate(current_user.model_dump())
 
 
 @router.get("/{user_id}", response_model=UserResponse)
