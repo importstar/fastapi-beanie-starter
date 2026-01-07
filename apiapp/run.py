@@ -37,10 +37,39 @@ def create_app() -> FastAPI:
     settings = get_settings()
     settings.configure_logging()
 
-    # Debug: print settings
-    logger.debug(
-        f"Settings loaded: APP_ENV={settings.APP_ENV}, DEBUG={settings.DEBUG}, DATABASE_URI={settings.DATABASE_URI[:30]}..."
+    # Debug: print settings and which fields came from environment
+    def _mask_sensitive(key: str, value: object) -> str:
+        try:
+            s = str(value)
+        except Exception:
+            return "<unrepresentable>"
+        if any(
+            t in key.upper()
+            for t in ("SECRET", "KEY", "PASSWORD", "TOKEN", "DATABASE", "URI")
+        ):
+            return "<sensitive>"
+        return s
+
+    try:
+        all_settings = settings.model_dump()
+    except Exception:
+        # fallback for older pydantic versions
+        all_settings = getattr(settings, "dict", lambda: {})()
+
+    fields_set = getattr(settings, "model_fields_set", None) or getattr(
+        settings, "__pydantic_fields_set__", set()
     )
+
+    logger.debug(f"Settings loaded from: {env_path}")
+    if fields_set:
+        logger.debug(
+            f"Fields loaded from env ({len(fields_set)}): {', '.join(sorted(fields_set))}"
+        )
+        for k in sorted(fields_set):
+            v = _mask_sensitive(k, all_settings[k])
+            logger.debug(f"{k}={v}")
+    else:
+        logger.debug("No fields loaded from env")
 
     app = FastAPI(lifespan=lifespan, **settings.fastapi_kwargs)
     app.add_exception_handler(HTTPException, http_error.http_error_handler)
