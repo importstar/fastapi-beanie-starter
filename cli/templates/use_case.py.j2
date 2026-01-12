@@ -1,95 +1,28 @@
 """
 {{ pascal_case }} use case - business logic and data access
-Simplified pattern using Beanie's built-in methods directly
+Simplified pattern using BaseUseCase for common CRUD operations
 """
-
-from datetime import datetime, timezone
-from typing import Optional
-
-from beanie import PydanticObjectId
-from fastapi_pagination import Page
-from fastapi_pagination.ext.beanie import paginate
 
 from .model import {{ pascal_case }}
 from .schemas import Create{{ pascal_case }}, Update{{ pascal_case }}, {{ pascal_case }}Response
+from ...core.base_use_case import BaseUseCase
 
 
-class {{ pascal_case }}UseCase:
+class {{ pascal_case }}UseCase(BaseUseCase[{{ pascal_case }}, Create{{ pascal_case }}, Update{{ pascal_case }}, {{ pascal_case }}Response]):
     """
     {{ pascal_case }} use case handling both business logic and data access.
-    Uses Beanie Document methods directly for simplicity.
+    Inherits common CRUD operations from BaseUseCase.
     """
 
-    # ==================== Create Operations ====================
+    model = {{ pascal_case }}
+    response_schema = {{ pascal_case }}Response
 
-    async def create(self, data: Create{{ pascal_case }}) -> {{ pascal_case }}Response:
-        """Create a new {{ feature_name }}"""
-        {{ feature_name }} = {{ pascal_case }}(
-            **data.model_dump(),
-            created_at=datetime.now(timezone.utc),
-        )
-
-        await {{ feature_name }}.insert()
-        return self._to_response({{ feature_name }})
-
-    # ==================== Read Operations ====================
-
-    async def get_by_id(self, {{ feature_name }}_id: str) -> Optional[{{ pascal_case }}Response]:
-        """Get {{ feature_name }} by ID"""
-        {{ feature_name }} = await {{ pascal_case }}.get(PydanticObjectId({{ feature_name }}_id))
-        return self._to_response({{ feature_name }}) if {{ feature_name }} else None
-
-    async def get_list(self) -> Page[{{ pascal_case }}Response]:
-        """Get paginated list of {{ feature_name }}s"""
-        find_query = {{ pascal_case }}.find_all().sort("-created_at")
-        page = await paginate(find_query)
-        return self._page_to_response(page)
-
-    # ==================== Update Operations ====================
-
-    async def update(self, {{ feature_name }}_id: str, data: Update{{ pascal_case }}) -> Optional[{{ pascal_case }}Response]:
-        """Update {{ feature_name }} with validation"""
-        {{ feature_name }} = await {{ pascal_case }}.get(PydanticObjectId({{ feature_name }}_id))
-        if not {{ feature_name }}:
-            return None
-
-        update_data = data.model_dump(exclude_none=True)
-
-        # Update fields
-        for key, value in update_data.items():
-            setattr({{ feature_name }}, key, value)
-
-        {{ feature_name }}.updated_at = datetime.now(timezone.utc)
-        await {{ feature_name }}.save()
-
-        return self._to_response({{ feature_name }})
-
-    # ==================== Delete Operations ====================
-
-    async def delete(self, {{ feature_name }}_id: str) -> bool:
-        """Delete {{ feature_name }} by ID"""
-        {{ feature_name }} = await {{ pascal_case }}.get(PydanticObjectId({{ feature_name }}_id))
-        if not {{ feature_name }}:
-            return False
-
-        await {{ feature_name }}.delete()
-        return True
-
-    # ==================== Private Helpers ====================
-
-    def _to_response(self, {{ feature_name }}: {{ pascal_case }}) -> {{ pascal_case }}Response:
-        """Convert {{ pascal_case }} model to {{ pascal_case }}Response"""
-        return {{ pascal_case }}Response.model_validate({{ feature_name }}.model_dump())
-
-    def _page_to_response(self, page: Page[{{ pascal_case }}]) -> Page[{{ pascal_case }}Response]:
-        """Convert paginated {{ pascal_case }}s to paginated {{ pascal_case }}Response"""
-        return Page(
-            items=[self._to_response({{ feature_name }}) for {{ feature_name }} in page.items],
-            total=page.total,
-            page=page.page,
-            size=page.size,
-            pages=page.pages,
-        )
+    # Add custom business logic here if needed
+    # Example:
+    # async def custom_method(self, param: str) -> Optional[{{ pascal_case }}Response]:
+    #     """Custom business logic"""
+    #     {{ feature_name }} = await {{ pascal_case }}.find_one({"field": param})
+    #     return self._to_response({{ feature_name }}) if {{ feature_name }} else None
 
 
 # Dependency injection

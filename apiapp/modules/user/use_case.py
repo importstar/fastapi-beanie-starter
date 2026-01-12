@@ -15,16 +15,20 @@ from werkzeug.security import generate_password_hash
 
 from .model import User
 from .schemas import CreateUser, UpdateUser, UserResponse, UserRole
+from ...core.base_use_case import BaseUseCase
 from ...core.exceptions import DuplicatedError
 
 
-class UserUseCase:
+class UserUseCase(BaseUseCase[User, CreateUser, UpdateUser, UserResponse]):
     """
     User use case handling both business logic and data access.
-    Uses Beanie Document methods directly for simplicity.
+    Inherits common CRUD operations from BaseUseCase and adds user-specific logic.
     """
 
-    # ==================== Create Operations ====================
+    model = User
+    response_schema = UserResponse
+
+    # ==================== Create Operations (Override) ====================
 
     async def create(self, data: CreateUser) -> UserResponse:
         """Register a new user with validation"""
@@ -47,12 +51,7 @@ class UserUseCase:
         await user.insert()
         return self._to_response(user)
 
-    # ==================== Read Operations ====================
-
-    async def get_by_id(self, user_id: str) -> Optional[UserResponse]:
-        """Get user by ID"""
-        user = await User.get(PydanticObjectId(user_id))
-        return self._to_response(user) if user else None
+    # ==================== Read Operations (Custom) ====================
 
     async def get_by_username(self, username: str) -> Optional[User]:
         """Get user by username (returns model for auth)"""
@@ -82,7 +81,7 @@ class UserUseCase:
         page = await paginate(find_query)
         return self._page_to_response(page)
 
-    # ==================== Update Operations ====================
+    # ==================== Update Operations (Override) ====================
 
     async def update(self, user_id: str, data: UpdateUser) -> Optional[UserResponse]:
         """Update user with validation"""
@@ -118,16 +117,8 @@ class UserUseCase:
         await user.save()
         return True
 
-    # ==================== Delete Operations ====================
-
-    async def delete(self, user_id: str) -> bool:
-        """Delete user by ID"""
-        user = await User.get(PydanticObjectId(user_id))
-        if not user:
-            return False
-
-        await user.delete()
-        return True
+    # ==================== Delete Operations (Inherited from BaseUseCase) ====================
+    # Uses the base delete() method
 
     # ==================== Private Helpers ====================
 
@@ -181,19 +172,7 @@ class UserUseCase:
 
         return filters
 
-    def _to_response(self, user: User) -> UserResponse:
-        """Convert User model to UserResponse"""
-        return UserResponse.model_validate(user.model_dump())
-
-    def _page_to_response(self, page: Page[User]) -> Page[UserResponse]:
-        """Convert paginated Users to paginated UserResponse"""
-        return Page(
-            items=[self._to_response(user) for user in page.items],
-            total=page.total,
-            page=page.page,
-            size=page.size,
-            pages=page.pages,
-        )
+    # Note: _to_response() and _page_to_response() are inherited from BaseUseCase
 
 
 # Dependency injection
