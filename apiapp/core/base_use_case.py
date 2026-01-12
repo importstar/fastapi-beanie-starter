@@ -4,7 +4,7 @@ Provides common CRUD functionality to reduce code duplication
 """
 
 from datetime import datetime, timezone
-from typing import Generic, TypeVar, Optional, Type, Any
+from typing import Generic, TypeVar, Optional, Type
 
 from beanie import Document, PydanticObjectId
 from fastapi_pagination import Page
@@ -73,6 +73,10 @@ class BaseUseCase(
         # Update fields
         for key, value in update_data.items():
             setattr(doc, key, value)
+
+        # Update timestamp if model has updated_at field
+        if hasattr(doc, "updated_at"):
+            setattr(doc, "updated_at", datetime.now(timezone.utc))
 
         await doc.save()
 
